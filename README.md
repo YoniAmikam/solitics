@@ -27,3 +27,6 @@ To enhance security:
 - Encryption is enabled for data both in transit and at rest.
 - IAM roles and policies are implemented to manage access to resources.
 - Logging and monitoring are enabled using AWS CloudWatch and CloudTrail to provide visibility into the infrastructure’s operations.
+<img width="1728" alt="Screenshot 2024-09-04 at 13 26 48" src="https://github.com/user-attachments/assets/e675f3ac-24b4-4538-a33f-0de35cce5183">
+<img width="1726" alt="Screenshot 2024-09-04 at 13 27 17" src="https://github.com/user-attachments/assets/0c2cec78-e5ee-4ba5-adaa-7c69a1e39176">
+[infra.pdf](https://github.com/user-attachments/files/16868780/infra.pdf)
