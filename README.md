@@ -4,7 +4,7 @@
 This repository provides Terraform configurations for setting up a scalable and secure cloud infrastructure on AWS. The setup includes a combination of services to ensure efficient routing, traffic management, security, and connectivity for a web application deployment.
 
 
-The CloudFront distribution URL is: [https://d3gdt86wyl5f50.cloudfront.net](https://d3gdt86wyl5f50.cloudfront.net)
+The CloudFront distribution URL is: [https://cf.sintersoli.com](https://cf.sintersoli.com).
 
 ## Components
 
