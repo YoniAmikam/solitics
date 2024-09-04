@@ -1,5 +1,8 @@
 module "cloudfront_1" {
   source = "terraform-aws-modules/cloudfront/aws"
+  aliases = [
+    "cf.${var.domain_name}",
+  ]
 
   comment             = "cloudfront-1"
   enabled             = true
@@ -8,6 +11,13 @@ module "cloudfront_1" {
   retain_on_delete    = false
   wait_for_deployment = false
   web_acl_id          = module.wafv2_cloudfront.aws_wafv2_arn
+
+  viewer_certificate = {
+    acm_certificate_arn            = "arn:aws:acm:us-east-1:096432477737:certificate/40f821e9-7b3c-400d-a21d-37a819fa2c20"
+    cloudfront_default_certificate = false
+    minimum_protocol_version       = "TLSv1.2_2021"
+    ssl_support_method             = "sni-only"
+  }
 
   logging_config = {
     bucket = module.cloudfront_access_logs_bucket.s3_bucket_bucket_domain_name
@@ -20,7 +30,7 @@ module "cloudfront_1" {
       custom_origin_config = {
         http_port              = 80
         https_port             = 443
-        origin_protocol_policy = "http-only"
+        origin_protocol_policy = "https-only"
         origin_ssl_protocols   = ["TLSv1.2"]
       }
     }
