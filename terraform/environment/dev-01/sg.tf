@@ -32,16 +32,17 @@ module "security_group_ec2_1" {
 
   name        = "sg_ec2_1"
   description = "Security Group for EC2 1"
-
-  vpc_id = module.vpc_1.vpc_id
+  vpc_id      = module.vpc_1.vpc_id
 
   egress_rules = ["https-443-tcp"]
+
   egress_with_cidr_blocks = [
     {
       rule        = "http-80-tcp"
       cidr_blocks = module.vpc_1.vpc_cidr_block
     }
   ]
+
   tags = local.tags
 }
 
@@ -51,10 +52,10 @@ module "security_group_ec2_2" {
 
   name        = "sg_ec2_2"
   description = "Security Group for EC2 2"
-
-  vpc_id = module.vpc_2.vpc_id
+  vpc_id      = module.vpc_2.vpc_id
 
   egress_rules = ["https-443-tcp"]
+
   egress_with_source_security_group_id = [
     {
       from_port                = 80
@@ -64,6 +65,7 @@ module "security_group_ec2_2" {
       description              = "Allow HTTP traffic on port 80 to the specified source security group"
     }
   ]
+
   ingress_with_source_security_group_id = [
     {
       from_port                = 80
@@ -73,5 +75,6 @@ module "security_group_ec2_2" {
       description              = "Allow HTTP traffic on port 80 to the specified source security group"
     }
   ]
+
   tags = local.tags
 }

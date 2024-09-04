@@ -10,6 +10,7 @@ resource "helm_release" "nginx" {
       alb_name           = var.alb_1_name
     })
   ]
+
   depends_on = [
     module.eks_1,
     helm_release.aws_load_balancer_controller
@@ -21,6 +22,7 @@ resource "helm_release" "aws_load_balancer_controller" {
   repository = "https://aws.github.io/eks-charts"
   chart      = "aws-load-balancer-controller"
   namespace  = "kube-system"
+
   values = [
     templatefile("./helm_chart/alb/values.yaml.tftpl", {
       cluster_name            = module.eks_1.cluster_name

@@ -7,15 +7,19 @@ module "cloudfront_access_logs_bucket" {
   control_object_ownership = true
   object_ownership         = "ObjectWriter"
 
-  grant = [{
-    type       = "CanonicalUser"
-    permission = "FULL_CONTROL"
-    id         = data.aws_canonical_user_id.current.id
-    }, {
-    type       = "CanonicalUser"
-    permission = "FULL_CONTROL"
-    id         = data.aws_cloudfront_log_delivery_canonical_user_id.cloudfront.id
-  }]
+  grant = [
+    {
+      type       = "CanonicalUser"
+      permission = "FULL_CONTROL"
+      id         = data.aws_canonical_user_id.current.id
+    },
+    {
+      type       = "CanonicalUser"
+      permission = "FULL_CONTROL"
+      id         = data.aws_cloudfront_log_delivery_canonical_user_id.cloudfront.id
+    }
+  ]
+
   force_destroy = true
 }
 
@@ -47,7 +51,7 @@ resource "aws_s3_bucket_policy" "cloudtrail_logs_policy" {
   bucket = module.cloudtrail_logs_s3_bucket.s3_bucket_id
 
   policy = jsonencode({
-    Version = "2012-10-17"
+    Version = "2012-10-17",
     Statement = [
       {
         Sid    = "AllowCloudTrailAclCheck"

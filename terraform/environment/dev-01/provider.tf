@@ -7,10 +7,8 @@ locals {
 }
 
 provider "aws" {
-  alias   = "eu_west_1"
   profile = "default"
   region  = "eu-west-1"
-  tags    = local.tags
 }
 
 provider "aws" {
