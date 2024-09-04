@@ -8,6 +8,7 @@ resource "helm_release" "nginx" {
       replicas           = var.nginx_replicas
       security_groups_id = aws_security_group.nginx_alb_1_security_group.id
       alb_name           = var.alb_1_name
+      ssl_policy         = var.ssl_policy
     })
   ]
 

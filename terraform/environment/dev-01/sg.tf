@@ -6,12 +6,12 @@ resource "aws_security_group" "nginx_alb_1_security_group" {
   tags = local.tags
 }
 
-resource "aws_vpc_security_group_ingress_rule" "nginx_alb_1_allow_http_ipv4" {
+resource "aws_vpc_security_group_ingress_rule" "nginx_alb_1_allow_https_ipv4" {
   security_group_id = aws_security_group.nginx_alb_1_security_group.id
   prefix_list_id    = data.aws_ec2_managed_prefix_list.cloudfront_origin_prefix_list.id
-  from_port         = 80
+  from_port         = 443
   ip_protocol       = "tcp"
-  to_port           = 80
+  to_port           = 443
 }
 
 resource "aws_vpc_security_group_egress_rule" "nginx_alb_1_allow_all_egress_ipv4" {
