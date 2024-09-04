@@ -18,7 +18,13 @@ module "eks_1" {
   subnet_ids               = slice(module.vpc_1.private_subnets, 0, 2)
   control_plane_subnet_ids = slice(module.vpc_1.private_subnets, 2, 4)
 
-  cluster_enabled_log_types = ["api", "audit", "authenticator", "controllerManager", "scheduler"]
+  cluster_enabled_log_types = [
+    "api",
+    "audit",
+    "authenticator",
+    "controllerManager",
+    "scheduler"
+  ]
 
   eks_managed_node_group_defaults = {
     instance_types = ["m6i.large", "m5.large", "m5n.large", "m5zn.large"]
@@ -50,12 +56,11 @@ module "eks_1" {
 
   access_entries = {
     admin = {
-      kubernetes_groups = []
-      principal_arn     = aws_iam_role.eks_admin_role.arn
+      principal_arn = aws_iam_role.eks_roles["eks_admin_role"].arn
 
       policy_associations = {
         admin_policy = {
-          policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSAdminPolicy"
+          policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
           access_scope = {
             namespaces = ["*"]
             type       = "namespace"
@@ -63,39 +68,37 @@ module "eks_1" {
         }
       }
     }
-  }
-  #
-  #     read_only = {
-  #       kubernetes_groups = []
-  #       principal_arn     = "arn:aws:iam::123456789012:role/read-only-role"
-  #
-  #       policy_associations = {
-  #         read_only_policy = {
-  #           policy_arn   = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSViewPolicy"
-  #           access_scope = {
-  #             namespaces = ["*"]
-  #             type       = "namespace"
-  #           }
-  #         }
-  #       }
-  #     }
-  #
-  #     read_only_default_namespace = {
-  #       kubernetes_groups = []
-  #       principal_arn     = "arn:aws:iam::123456789012:role/read-only-default-namespace-role"
-  #
-  #       policy_associations = {
-  #         read_only_default_policy = {
-  #           policy_arn   = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSViewPolicy"
-  #           access_scope = {
-  #             namespaces = ["default"]
-  #             type       = "namespace"
-  #           }
-  #         }
-  #       }
-  #     }
-  #   }
 
+    read_only = {
+      kubernetes_groups = []
+      principal_arn     = aws_iam_role.eks_roles["eks_read_only_role"].arn
+
+      policy_associations = {
+        read_only_policy = {
+          policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSViewPolicy"
+          access_scope = {
+            namespaces = ["*"]
+            type       = "namespace"
+          }
+        }
+      }
+    }
+
+    read_only_default_namespace = {
+      kubernetes_groups = []
+      principal_arn     = aws_iam_role.eks_roles["eks_read_only_ns_default"].arn
+
+      policy_associations = {
+        read_only_default_policy = {
+          policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSViewPolicy"
+          access_scope = {
+            namespaces = ["default"]
+            type       = "namespace"
+          }
+        }
+      }
+    }
+  }
 
   tags = local.tags
 }
