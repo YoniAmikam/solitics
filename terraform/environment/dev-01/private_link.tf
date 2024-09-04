@@ -39,7 +39,6 @@ resource "aws_lb_target_group_attachment" "nlb_1_tg_attachment" {
   port             = 80
 }
 
-
 resource "aws_lb_listener" "nlb_1_listener" {
   load_balancer_arn = aws_lb.nlb_1.arn
   port              = 80

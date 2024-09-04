@@ -1,13 +1,14 @@
 locals {
   vpc_1_cidr            = "192.168.0.0/16"
-  vpc_1_private_subnets = [for k, v in range(4) : cidrsubnet(local.vpc_1_cidr, 8, k)]
-  vpc_1_public_subnets  = [for k, v in range(2) : cidrsubnet(local.vpc_1_cidr, 8, k + 4)]
+  vpc_1_private_subnets = [for k in range(4) : cidrsubnet(local.vpc_1_cidr, 8, k)]
+  vpc_1_public_subnets  = [for k in range(2) : cidrsubnet(local.vpc_1_cidr, 8, k + 4)]
 
   vpc_2_cidr            = "10.0.0.0/16"
-  vpc_2_private_subnets = [for k, v in range(4) : cidrsubnet(local.vpc_2_cidr, 8, k)]
-  vpc_2_public_subnets  = [for k, v in range(2) : cidrsubnet(local.vpc_2_cidr, 8, k + 4)]
+  vpc_2_private_subnets = [for k in range(4) : cidrsubnet(local.vpc_2_cidr, 8, k)]
+  vpc_2_public_subnets  = [for k in range(2) : cidrsubnet(local.vpc_2_cidr, 8, k + 4)]
 
   azs = slice(data.aws_availability_zones.available.names, 0, 2)
+
   default_network_acl_rules = [
     {
       action     = "allow"
@@ -40,7 +41,7 @@ locals {
       protocol   = "tcp"
       rule_no    = 103
       to_port    = 53
-    },
+    }
   ]
 }
 
@@ -48,9 +49,8 @@ module "vpc_1" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "~> 5.0"
 
-  name = "vpc-1"
-  cidr = local.vpc_1_cidr
-
+  name            = "vpc-1"
+  cidr            = local.vpc_1_cidr
   azs             = local.azs
   private_subnets = local.vpc_1_private_subnets
   public_subnets  = local.vpc_1_public_subnets
@@ -91,9 +91,8 @@ module "vpc_2" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "~> 5.0"
 
-  name = "vpc-2"
-  cidr = local.vpc_2_cidr
-
+  name            = "vpc-2"
+  cidr            = local.vpc_2_cidr
   azs             = local.azs
   private_subnets = local.vpc_2_private_subnets
   public_subnets  = local.vpc_2_public_subnets

@@ -1,23 +1,29 @@
-resource "aws_iam_role" "eks_admin_role" {
-  name = "eks-admin-role"
-
-  assume_role_policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": "sts:AssumeRole",
-      "Principal": {
-        "Service": "eks.amazonaws.com"
-      },
-      "Effect": "Allow",
-      "Sid": ""
-    }
-  ]
+locals {
+  eks_iam_roles = {
+    eks_admin_role           = "kubeAdmin"
+    eks_read_only_role       = "kubeReadOnly"
+    eks_read_only_ns_default = "kubeReadOnlyDefaultNS"
+  }
 }
-EOF
 
-  tags = local.tags
+resource "aws_iam_role" "eks_roles" {
+  for_each = local.eks_iam_roles
+
+  name = each.value
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Principal = {
+          AWS = "arn:aws:iam::${var.aws_account_id}:root"
+        },
+        Action    = "sts:AssumeRole",
+        Condition = {}
+      }
+    ],
+  })
 }
 
 resource "aws_iam_role" "alb_controller_role" {
