@@ -10,9 +10,11 @@ locals {
 }
 
 module "ec2_1" {
-  source = "terraform-aws-modules/ec2-instance/aws"
+  source  = "terraform-aws-modules/ec2-instance/aws"
+  version = "5.7.0"
 
   name                        = "ec2-1"
+  ami                         = var.ec2_ami_id
   subnet_id                   = element(module.vpc_1.private_subnets, 0)
   vpc_security_group_ids      = [module.security_group_ec2_1.security_group_id]
   create_iam_instance_profile = true
@@ -25,9 +27,11 @@ module "ec2_1" {
 }
 
 module "ec2_2" {
-  source = "terraform-aws-modules/ec2-instance/aws"
+  source  = "terraform-aws-modules/ec2-instance/aws"
+  version = "5.7.0"
 
   name                        = "ec2-2"
+  ami                         = var.ec2_ami_id
   subnet_id                   = element(module.vpc_2.private_subnets, 0)
   vpc_security_group_ids      = [module.security_group_ec2_2.security_group_id]
   user_data_base64            = base64encode(local.user_data)

@@ -1,7 +1,8 @@
 module "cloudfront_1" {
-  source = "terraform-aws-modules/cloudfront/aws"
+  version = "3.4.0"
+  source  = "terraform-aws-modules/cloudfront/aws"
   aliases = [
-    "cf.${var.domain_name}",
+    var.sol_domain_name,
   ]
 
   comment             = "cloudfront-1"
@@ -40,12 +41,13 @@ module "cloudfront_1" {
     target_origin_id       = "application_load_balancer"
     viewer_protocol_policy = "redirect-to-https"
 
-    allowed_methods = ["GET", "HEAD", "OPTIONS"]
-    cached_methods  = ["GET", "HEAD"]
-    compress        = true
-    query_string    = false
+    allowed_methods      = ["GET", "HEAD", "OPTIONS"]
+    cached_methods       = ["GET", "HEAD"]
+    compress             = true
+    use_forwarded_values = false
 
-    response_headers_policy_id = "67f7725c-6f97-4210-82d7-5512b31e9d03"
+    cache_policy_id          = "83da9c7e-98b4-4e11-a168-04f0df8e2c65"
+    origin_request_policy_id = "216adef6-5c7f-47e4-b989-5492eafa07d3"
   }
 
   depends_on = [null_resource.alb_1_ready]

@@ -15,15 +15,11 @@ resource "aws_vpc_security_group_ingress_rule" "nginx_alb_1_allow_https_ipv4" {
 }
 
 resource "aws_vpc_security_group_egress_rule" "nginx_alb_1_allow_all_egress_ipv4" {
-  security_group_id = aws_security_group.nginx_alb_1_security_group.id
-  cidr_ipv4         = "0.0.0.0/0"
-  ip_protocol       = "-1"
-}
-
-resource "aws_vpc_security_group_egress_rule" "nginx_alb_1_allow_all_egress_ipv6" {
-  security_group_id = aws_security_group.nginx_alb_1_security_group.id
-  cidr_ipv6         = "::/0"
-  ip_protocol       = "-1"
+  security_group_id            = aws_security_group.nginx_alb_1_security_group.id
+  from_port                    = 8080
+  referenced_security_group_id = module.eks_1.node_security_group_id
+  ip_protocol                  = "tcp"
+  to_port                      = 8080
 }
 
 module "security_group_ec2_1" {
