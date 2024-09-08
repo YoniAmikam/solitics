@@ -16,12 +16,5 @@ ingress:
     alb.ingress.kubernetes.io/load-balancer-name: ${alb_name}
     alb.ingress.kubernetes.io/ssl-policy: ${ssl_policy}
     alb.ingress.kubernetes.io/wafv2-acl-arn: ${wafv2_arn}
-    alb.ingress.kubernetes.io/load-balancer-attributes: |
-      deletion_protection.enabled=true,
-      access_logs.s3.enabled=true,
-      access_logs.s3.prefix=access-logs,
-      access_logs.s3.bucket=${s3_bucket_logs},
-      connection_logs.s3.enabled=true,
-      connection_logs.s3.prefix=connection-logs,
-      connection_logs.s3.bucket=${s3_bucket_logs}
+    alb.ingress.kubernetes.io/load-balancer-attributes: deletion_protection.enabled=true, access_logs.s3.enabled=true, access_logs.s3.prefix=access-logs, access_logs.s3.bucket=${s3_bucket_logs_id}, connection_logs.s3.enabled=true, connection_logs.s3.prefix=connection-logs, connection_logs.s3.bucket=${s3_bucket_logs_id}
   tls: true

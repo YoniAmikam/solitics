@@ -11,7 +11,7 @@ resource "helm_release" "nginx" {
       ssl_policy         = var.ssl_policy
       hostname           = var.sol_domain_name
       wafv2_arn          = module.wafv2_application.aws_wafv2_arn
-      s3_bucket_logs     = module.alb_1_log_bucket.s3_bucket_bucket_domain_name
+      s3_bucket_logs_id   = module.alb_1_log_bucket.s3_bucket_id
     })
   ]
 
