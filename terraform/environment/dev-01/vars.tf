@@ -28,7 +28,13 @@ variable "ssl_policy" {
   default = "ELBSecurityPolicy-TLS13-1-2-2021-06"
 }
 
-variable "domain_name" {
+variable "sol_domain_name" {
   type    = string
-  default = "sintersoli.com"
+  default = "cf.sintersoli.com"
+}
+
+variable "ec2_ami_id" {
+  description = "The AMI ID to use for the EC2 instances"
+  type        = string
+  default     = "ami-01fe8a5feb270c44b"
 }
